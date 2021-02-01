@@ -1,7 +1,7 @@
 {
-  "name": "expressive-json-validator",
+  "name": "fluent-json-validator",
   "version": "0.1.0",
-  "description": "An easy-to-use, expressive, and composable JSON object validator, with fluent builder pattern interface.",
+  "description": "An easy-to-use, expressive, and composable JSON object validator, with a fluent builder pattern interface!",
   "type": "module",
   "main": "is.js",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Semmu/expressive-json-validator.git"
+    "url": "git+https://github.com/Semmu/fluent-json-validator.git"
   },
   "keywords": [
     "json",
@@ -30,7 +30,7 @@
   "author": "Laszlo Boros (Semmu)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Semmu/expressive-json-validator/issues"
+    "url": "https://github.com/Semmu/fluent-json-validator/issues"
   },
-  "homepage": "https://github.com/Semmu/expressive-json-validator#readme"
+  "homepage": "https://github.com/Semmu/fluent-json-validator#readme"
 }

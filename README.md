@@ -1,4 +1,4 @@
-# Expressive JSON validator
+# Fluent JSON validator
 
 An easy-to-use, expressive, and composable JSON object validator, with a fluent builder pattern interface!
 
@@ -50,7 +50,7 @@ personSchema.validate(person); // == true
 ## Installation
 
 ```bash
-npm i expressive-json-validator
+npm i fluent-json-validator
 ```
 
 
