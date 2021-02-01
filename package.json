@@ -1,6 +1,6 @@
 {
   "name": "fluent-json-validator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "An easy-to-use, expressive, and composable JSON object validator, with a fluent builder pattern interface!",
   "type": "module",
   "main": "is.js",
