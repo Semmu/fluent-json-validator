@@ -17,12 +17,12 @@ const personSchema = is.Object({
     name: is.String(),
     nickname: is.optional().String(),
     // ^ nickname may be missing, but if not, it must be a string.
-    age: is.Number().Where(
+    age: is.Number().Which(
         age => age > 10
         // ^ age must be more than 10.
     ),
     hobbies: is.ArrayOf(
-        is.String().Where(
+        is.String().Which(
             hobby => hobby !== 'illegal activities'
             // ^ hobbies can't include illegal activities!
         )
@@ -42,7 +42,7 @@ personSchema.validate(person); // == true
  * Can validate **primitive types, arrays** (`is.ArrayOf`) and even **variable types** (`is.OneOf`)!
  * Can validate **any arbitrary JSON object structure**, just mix'n'match the needed validators!
  * Schemas are **reusable and composable** for validating complex data structures painlessly!
- * Can be used for **formal**<sup>1</sup> and **functional**<sup>1</sup> validation as well! (with `is.Where`)
+ * Can be used for **formal**<sup>1</sup> and **functional**<sup>1</sup> validation as well! (`is.Which`)
 
 <sup>1</sup>: I may be using slightly incorrect words, but by formal validation I mean _the data has valid structure_, and by functional validation I mean _the data/value itself satisfies additional arbitrary requirements if needed_.
 

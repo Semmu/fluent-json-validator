@@ -44,29 +44,29 @@ const testCases = [
     },
     {
         description: 'validating unknown type fails',
-        result: false === is.Where(x => true).validate() &&
-                false === is.optional().Where(x => true).validate('anything')
+        result: false === is.Which(x => true).validate() &&
+                false === is.optional().Which(x => true).validate('anything')
     },
     {
         description: 'functional requirements work',
-        result:  true === is.String().Where(str => str.length > 5).validate('more than 5 chars') &&
-                false === is.String().Where(str => str.length > 5).validate('less') &&
+        result:  true === is.String().Which(str => str.length > 5).validate('more than 5 chars') &&
+                false === is.String().Which(str => str.length > 5).validate('less') &&
 
-                 true === is.Number().Where(num => num > 42).validate(50) &&
-                false === is.Number().Where(num => num > 42).validate(0) &&
+                 true === is.Number().Which(num => num > 42).validate(50) &&
+                false === is.Number().Which(num => num > 42).validate(0) &&
 
-                 true === is.Boolean().Where(bln => bln).validate(true) &&
-                false === is.Boolean().Where(bln => bln).validate(false) &&
+                 true === is.Boolean().Which(bln => bln).validate(true) &&
+                false === is.Boolean().Which(bln => bln).validate(false) &&
 
-                 true === is.Object().Where(obj => 'key1' in obj ? 'key2' in obj : true).validate({}) &&
-                false === is.Object().Where(obj => 'key1' in obj ? 'key2' in obj : true).validate({key1: 'value1'}) &&
-                 true === is.Object().Where(obj => 'key1' in obj ? 'key2' in obj : true).validate({key1: 'value1', key2: 'value2'})
+                 true === is.Object().Which(obj => 'key1' in obj ? 'key2' in obj : true).validate({}) &&
+                false === is.Object().Which(obj => 'key1' in obj ? 'key2' in obj : true).validate({key1: 'value1'}) &&
+                 true === is.Object().Which(obj => 'key1' in obj ? 'key2' in obj : true).validate({key1: 'value1', key2: 'value2'})
     },
     {
         description: 'multiple simultaneous functional requirements work',
-        result:  true === is.Number().Where(num => num > 5).Where(num => num < 10).validate(8) &&
-                false === is.Number().Where(num => num > 5).Where(num => num < 10).validate(4) &&
-                false === is.Number().Where(num => num > 5).Where(num => num < 10).validate(11)
+        result:  true === is.Number().Which(num => num > 5).Which(num => num < 10).validate(8) &&
+                false === is.Number().Which(num => num > 5).Which(num => num < 10).validate(4) &&
+                false === is.Number().Which(num => num > 5).Which(num => num < 10).validate(11)
     },
     {
         description: 'ArrayOf does not accept non-arrays',
@@ -83,13 +83,13 @@ const testCases = [
     },
     {
         description: 'functional requirements of arrays and their elements work correctly',
-        result:  true === is.ArrayOf(is.String()).Where(arr => arr.length == 3).validate(['array', 'of', 'strings']) &&
-                false === is.ArrayOf(is.String()).Where(arr => arr.length == 3).validate(['array', 'of', 'more', 'strings']) &&
-                 true === is.ArrayOf(is.String().Where(str => str == 'a')).validate(['a', 'a', 'a']) &&
-                false === is.ArrayOf(is.String().Where(str => str == 'a')).validate(['a', 'a', 'B!']) &&
+        result:  true === is.ArrayOf(is.String()).Which(arr => arr.length == 3).validate(['array', 'of', 'strings']) &&
+                false === is.ArrayOf(is.String()).Which(arr => arr.length == 3).validate(['array', 'of', 'more', 'strings']) &&
+                 true === is.ArrayOf(is.String().Which(str => str == 'a')).validate(['a', 'a', 'a']) &&
+                false === is.ArrayOf(is.String().Which(str => str == 'a')).validate(['a', 'a', 'B!']) &&
 
-                 true === is.ArrayOf(is.String().Where(str => str == 'a')).Where(arr => arr.length == 3).validate(['a', 'a', 'a']) &&
-                false === is.ArrayOf(is.String().Where(str => str == 'a')).Where(arr => arr.length == 3).validate(['a', 'a', 'a', 'a'])
+                 true === is.ArrayOf(is.String().Which(str => str == 'a')).Which(arr => arr.length == 3).validate(['a', 'a', 'a']) &&
+                false === is.ArrayOf(is.String().Which(str => str == 'a')).Which(arr => arr.length == 3).validate(['a', 'a', 'a', 'a'])
     },
     {
         description: 'optional ArrayOf works correctly',
@@ -271,8 +271,8 @@ const personSchema = is.Object({
     name:     is.String(),
     nickname: is.optional().String(),
     hometown: is.String(),
-    age:      is.Number().Where(age => age > 5),
-    hobbies:  is.optional().ArrayOf(is.String().Where(str => str !== 'illegal activites')),
+    age:      is.Number().Which(age => age > 5),
+    hobbies:  is.optional().ArrayOf(is.String().Which(str => str !== 'illegal activites')),
     favoriteNumberOrColor: is.optional().OneOf([is.String(), is.Number()]),
 });
 
@@ -285,14 +285,14 @@ const locationSchema = is.Object({
 const everythingSchema = is.Object({
     people:    is.ArrayOf(personSchema),
     locations: is.ArrayOf(locationSchema)
-}).Where(everything => (
+}).Which(everything => (
     // this is a functional way to say that the hometown of each person
     // exists in locations, a.k.a. no one has a hometown which is not
     // defined in locations.
     everything.people.filter(person => (
         everything.locations.filter(locations => locations.name == person.hometown).length == 0
     )).length == 0
-)).Where(everything => (
+)).Which(everything => (
     // this is a super complicated but functional way to say that there are no location duplicates based on their name...
     // (why js doesn't have `unique`?)
     everything.locations.map(location => location.name).filter((location, i, array) => array.indexOf(location) == i).length == everything.locations.length

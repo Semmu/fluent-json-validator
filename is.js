@@ -24,7 +24,7 @@ const is = {
             return this;
         };
 
-        this.Where = function(functionalValidator) {
+        this.Which = function(functionalValidator) {
             this.__functionalValidators.push(functionalValidator);
             return this;
         }
@@ -106,7 +106,7 @@ const is = {
 
 is.optional = () => (new is.__validationUnit().optional());
 
-is.Where = (functionalValidator) => (new is.__validationUnit().Where(functionalValidator));
+is.Which = (functionalValidator) => (new is.__validationUnit().Which(functionalValidator));
 
 is.String = () => (new is.__validationUnit().String());
 is.Boolean = () => (new is.__validationUnit().Boolean());
