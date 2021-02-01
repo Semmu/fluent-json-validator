@@ -1,0 +1,36 @@
+{
+  "name": "expressive-json-validator",
+  "version": "0.1.0",
+  "description": "An easy-to-use, expressive, and composable JSON object validator, with fluent builder pattern interface.",
+  "type": "module",
+  "main": "is.js",
+  "scripts": {
+    "start": "npm test",
+    "test": "node tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Semmu/expressive-json-validator.git"
+  },
+  "keywords": [
+    "json",
+    "data",
+    "structure",
+    "object",
+    "validator",
+    "validate",
+    "formal",
+    "functional",
+    "expressive",
+    "fluent",
+    "composable",
+    "eloquent",
+    "builder"
+  ],
+  "author": "Laszlo Boros (Semmu)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Semmu/expressive-json-validator/issues"
+  },
+  "homepage": "https://github.com/Semmu/expressive-json-validator#readme"
+}
