@@ -54,9 +54,14 @@ npm i fluent-json-validator
 ```
 
 
-## Examples
+## Usage & Examples
 
 I will write some examples here, but in the meantime check out [the countless tests](./tests.js) for inspiration, especially the [complex ones](./tests.js#L285) at the end!
+
+
+## API docs
+
+In the [`docs/`](docs/) folder and also on https://semmu.github.io/fluent-json-validator.
 
 
 ## Testing
@@ -65,6 +70,13 @@ Testcases are listed in [`tests.js`](./tests.js). Run them with
 ```bash
 npm test
 ```
+
+
+## Note about code quality (?)
+
+This project most probably does not follow the current Javascript standards and coding style embraced by the global community, thus some people may find the source code weird and/or outright hideous. As I'm not primarily a Javascript developer (and I don't intend to become one) the current implementation is a solution that I could come up with, which works and has the API that I dreamed of.
+
+If you have ideas how to improve the library internals (without breaking the public API) feel free to open an issue or PR to discuss it! I'm open for improvements and constructive criticism.
 
 
 ## But why?
