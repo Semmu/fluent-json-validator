@@ -1,5 +1,9 @@
 # Fluent JSON validator
 
+ * [**GitHub repository**](https://github.com/Semmu/fluent-json-validator)
+ * [**Online API docs**](https://semmu.github.io/fluent-json-validator)
+ * [**NPM package site**](https://www.npmjs.com/package/fluent-json-validator)
+
 An easy-to-use, expressive, and composable JSON object validator, with a fluent builder pattern interface!
 
 ```javascript
