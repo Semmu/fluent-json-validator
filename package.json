@@ -6,7 +6,8 @@
   "main": "is.js",
   "scripts": {
     "start": "npm test",
-    "test": "node tests.js"
+    "test": "node tests.js",
+    "jsdoc": "jsdoc --readme README.md -d docs/ is.js"
   },
   "repository": {
     "type": "git",
@@ -32,5 +33,8 @@
   "bugs": {
     "url": "https://github.com/Semmu/fluent-json-validator/issues"
   },
-  "homepage": "https://github.com/Semmu/fluent-json-validator#readme"
+  "homepage": "https://github.com/Semmu/fluent-json-validator#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.6"
+  }
 }
