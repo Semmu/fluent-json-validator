@@ -85,16 +85,168 @@ personSchema.validate(person); // == true
 <li>Lightweight, since it has <strong>no dependencies!</strong></li>
 <li>Has a <strong>small and simple API</strong>, only a handful of methods.</li>
 <li>Can validate <strong>primitive types, arrays</strong> (<code>is.ArrayOf</code>) and even <strong>variable types</strong> (<code>is.OneOf</code>)!</li>
-<li>Can validate <strong>any arbitrary JSON object structure</strong>, just mix'n'match the needed validators!</li>
+<li>Can validate <strong>any arbitrary JSON object structure</strong>, just mix'n'match the needed validators (<code>is.Object</code>)!</li>
 <li>Schemas are <strong>reusable and composable</strong> for validating complex data structures painlessly!</li>
-<li>Can be used for <strong>formal</strong><sup>1</sup> and <strong>functional</strong><sup>1</sup> validation as well! (<code>is.Which</code>)</li>
+<li>Can be used for <strong>formal</strong><sup>1</sup> and <strong>functional</strong><sup>1</sup> validation as well (<code>is.Which</code>)!</li>
 </ul>
-<p><sup>1</sup>: I may be using slightly incorrect words, but by formal validation I mean <em>the data has valid structure</em>, and by functional validation I mean <em>the data/value itself satisfies additional arbitrary requirements if needed</em>.</p>
+<p><sup>1</sup>: I may be using slightly incorrect words, but by formal validation I mean <em>the subject has the desired structure</em>, and by functional validation I mean <em>the subject itself also satisfies additional arbitrary requirements</em>.</p>
 <h2>Installation</h2>
-<pre class="prettyprint source lang-bash"><code>npm i fluent-json-validator
+<pre class="prettyprint source lang-bash"><code>npm install fluent-json-validator
 </code></pre>
-<h2>Usage &amp; Examples</h2>
-<p>I will write some examples here, but in the meantime check out <a href="./tests.js">the countless tests</a> for inspiration, especially the <a href="./tests.js#L285">complex ones</a> at the end!</p>
+<h2>Usage / how-to / tutorial</h2>
+<p>First, of course you need to import the library itself:</p>
+<pre class="prettyprint source lang-javascript"><code>import { is } from 'fluent-json-validator'
+</code></pre>
+<p>Then you can create validators like this:</p>
+<pre class="prettyprint source lang-javascript"><code>const stringValidator = is.String();
+</code></pre>
+<p>These validators can then validate objects passed to them like this:</p>
+<pre class="prettyprint source lang-javascript"><code>stringValidator.validate('some string') // true
+stringValidator.validate(42)            // false
+</code></pre>
+<p>Of course this whole expression can be written on one single line if you prefer compact solutions:</p>
+<pre class="prettyprint source lang-javascript"><code>is.String().validate('some string') // still true
+is.String().validate(42)            // still false
+</code></pre>
+<p>If some data may not be present, you can use optional validators, which accept missing/undefined data:</p>
+<pre class="prettyprint source lang-javascript"><code>const isOptionalNumber = is.optional().Number() // or is.Number().optional()
+
+isOptionalNumber.validate(42)    // true
+isOptionalNumber.validate()      // true
+isOptionalNumber.validate('NaN') // false
+</code></pre>
+<p>As for primitive data types, we have validators for strings, numbers and booleans:</p>
+<pre class="prettyprint source lang-javascript"><code>const stringValidator = is.String()
+const numberValidator = is.Number()
+const boolValidator   = is.Boolean()
+
+stringValidator.validate('more string') // true
+numberValidator.validate(42)            // true
+boolValidator.validate(true)            // true
+</code></pre>
+<p>And for complex/compound data types, i.e. objects, we have the object validator:</p>
+<pre class="prettyprint source lang-javascript"><code>const objectValidator = is.Object({
+    someKey: is.String()
+})
+</code></pre>
+<p>This object validator needs a parameter which describes the desired schema of the subject. It must contain the same properties as the subject you want to validate, and it must be made up of other validators.</p>
+<p>Using this is very similar to the primitive data type validators:</p>
+<pre class="prettyprint source lang-javascript"><code>const someObject = {
+    someKey: 'this is some string'
+}
+
+objectValidator.validate(someObject) // true
+
+const otherObject = {
+    someKey: 42
+}
+
+objectValidator.validate(otherObject) // false
+</code></pre>
+<p>(Of course the above expressions can be written on one line as well. Excercise left for the reader.)</p>
+<p>For arrays, you can use the array validator:</p>
+<pre class="prettyprint source lang-javascript"><code>const arrayValidator = is.ArrayOf(is.Number())
+</code></pre>
+<p>This one also needs a parameter: a validator, which is going to check all the elements of the array, like this:</p>
+<pre class="prettyprint source lang-javascript"><code>arrayValidator.validate([1, 2, 3])          // true
+arrayValidator.validate(['some', 'string']) // false
+arrayValidator.validate([1, 2, 'impostor']) // false
+</code></pre>
+<p>If you happen to have some data which could have different types, you can validate that as well:</p>
+<pre class="prettyprint source lang-javascript"><code>const variableValidator = is.OneOf([is.String(), is.Number()])
+</code></pre>
+<p>This validator needs an array of validators, and the subject will need to match against at least one of them.</p>
+<pre class="prettyprint source lang-javascript"><code>variableValidator.validate('some string') // true
+variableValidator.validate(42)            // also true
+variableValidator.validate(true)          // false
+</code></pre>
+<p>Lastly, if you need to check for functional requirements, you can do that too:</p>
+<pre class="prettyprint source lang-javascript"><code>const ageValidator = is.Number().Which(value => value >= 18)
+</code></pre>
+<p>It needs a lambda/function as a parameter, which will receive the subject to validate, and must return a boolean.</p>
+<p>Using it does not require anything special:</p>
+<pre class="prettyprint source lang-javascript"><code>ageValidator.validate(18) // true
+ageValidator.validate(5)  // false
+</code></pre>
+<p>And if you need to validate complex data structures, you can compose big validators from smaller ones, like:</p>
+<pre class="prettyprint source lang-javascript"><code>const isPerson = is.Object({
+    name:   is.String(),
+    gender: is.optional().String(),
+    age:    is.Number()
+})
+
+const isLocation = is.Object({
+    longitude: is.Number(),
+    latitude:  is.Number()
+})
+
+// the compound validator.
+const isCompany = is.Object({
+    owner:     isPerson,
+    employees: is.ArrayOf(isPerson),
+    location:  isLocation
+})
+
+isCompany.validate({
+    owner: {
+        name:   'John Doe',
+        gender: 'male',
+        age:    42
+    },
+    employees: [
+        {
+            name: 'Some Dude',
+            // note: gender is missing!
+            age:  18
+        }, {
+            name:   'Another Individual',
+            gender: 'mystery',
+            age:    99
+        }
+    ],
+    location: {
+        longitude: 42,
+        latitude:  3.14
+    }
+}) // true
+</code></pre>
+<p>This is actually a very simple example compared to what you can do with this library.</p>
+<p>For example you can have an array of values, in which all of them must meet a functional requirement:</p>
+<pre class="prettyprint source lang-javascript"><code>const diceRolls = is.ArrayOf(is.Number().Which(value => value > 0 && value &lt; 7))
+
+diceRolls.validate([1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]) // true
+diceRolls.validate([1, 6, 3])                         // true
+diceRolls.validate([9])                               // false
+diceRolls.validate(['over 9000'])                     // false
+</code></pre>
+<p>And also you can have a functional requirement which ensures e.g. cross-referencing in complex schemas:</p>
+<pre class="prettyprint source lang-javascript"><code>const isFood = is.Object({
+    name: is.String(),
+    calories: is.Number()
+})
+
+const validator = is.Object({
+    foods: is.ArrayOf(isFood),
+    favoriteFoodName: is.String()
+}).Which(obj => obj.foods.filter(food => food.name == obj.favoriteFoodName).length == 1)
+         // ^ == there exists one and only one food which has the name of favoriteFoodName.
+
+console.log(validator.validate({
+    foods: [
+        {
+            name: 'apple',
+            calories: 52
+        },
+        {
+            name: 'pizza',
+            calories: 266
+        }
+    ],
+    favoriteFoodName: 'apple'
+})) // true
+</code></pre>
+<p>In this example above we have a list of foods (with names and calories), and a favorite food, which must exist in the said foods array.</p>
+<p>Also don't forget to check the <a href="./tests.js">countless tests</a> for inspiration, especially the <a href="./tests.js#L285">complex ones</a> at the end!</p>
 <h2>API docs</h2>
 <p>In the <a href="docs/"><code>docs/</code></a> folder and also on https://semmu.github.io/fluent-json-validator.</p>
 <h2>Testing</h2>
@@ -125,7 +277,7 @@ personSchema.validate(person); // == true
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sat Mar 13 2021 16:58:59 GMT+0100 (Central European Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.6</a> on Sat Mar 13 2021 20:08:29 GMT+0100 (Central European Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
