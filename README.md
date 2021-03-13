@@ -273,7 +273,7 @@ Also don't forget to check the [countless tests](./tests.js) for inspiration, es
 
 ## API docs
 
-In the [`docs/`](docs/) folder and also on https://semmu.github.io/fluent-json-validator.
+In the [`docs/`](docs/) folder and also hosted on [GitHub Pages](https://semmu.github.io/fluent-json-validator). (Don't forget to check the right sidebar of the site!)
 
 
 ## Testing
