@@ -44,6 +44,11 @@
 
     <section>
         <article><h1>Fluent JSON validator</h1>
+<ul>
+<li><a href="https://github.com/Semmu/fluent-json-validator"><strong>GitHub repository</strong></a></li>
+<li><a href="https://semmu.github.io/fluent-json-validator"><strong>Online API docs</strong></a></li>
+<li><a href="https://www.npmjs.com/package/fluent-json-validator"><strong>NPM package site</strong></a></li>
+</ul>
 <p>An easy-to-use, expressive, and composable JSON object validator, with a fluent builder pattern interface!</p>
 <pre class="prettyprint source lang-javascript"><code>// this is what you want to validate:
 // coming from the user, read from a file, sent back by some API, etc.
@@ -88,12 +93,17 @@ personSchema.validate(person); // == true
 <h2>Installation</h2>
 <pre class="prettyprint source lang-bash"><code>npm i fluent-json-validator
 </code></pre>
-<h2>Examples</h2>
+<h2>Usage &amp; Examples</h2>
 <p>I will write some examples here, but in the meantime check out <a href="./tests.js">the countless tests</a> for inspiration, especially the <a href="./tests.js#L285">complex ones</a> at the end!</p>
+<h2>API docs</h2>
+<p>In the <a href="docs/"><code>docs/</code></a> folder and also on https://semmu.github.io/fluent-json-validator.</p>
 <h2>Testing</h2>
 <p>Testcases are listed in <a href="./tests.js"><code>tests.js</code></a>. Run them with</p>
 <pre class="prettyprint source lang-bash"><code>npm test
 </code></pre>
+<h2>Note about code quality (?)</h2>
+<p>This project most probably does not follow the current Javascript standards and coding style embraced by the global community, thus some people may find the source code weird and/or outright hideous. As I'm not primarily a Javascript developer (and I don't intend to become one) the current implementation is a solution that I could come up with, which works and has the API that I dreamed of.</p>
+<p>If you have ideas how to improve the library internals (without breaking the public API) feel free to open an issue or PR to discuss it! I'm open for improvements and constructive criticism.</p>
 <h2>But why?</h2>
 <p>Because there is no other JSON object validator with a builder pattern interface like this one. Okay, there is actually <a href="https://www.npmjs.com/package/superstruct">Superstruct</a>, but I didn't know about it when I started developing this, and also it is much-much bigger with many features I personally don't need.</p>
 <p>So I created this library as a smaller alternative.</p>
