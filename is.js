@@ -124,6 +124,10 @@ const is = {
             return this;
         };
 
+        this.extend = function(schemaObj) {
+            this.__schemaObj = {...this.__schemaObj, schemaObj}
+        }
+
         /**
          * Set the validator to validate arrays.
          *
@@ -174,6 +178,15 @@ const is = {
  * @return     {is.__validationUnit}  A new optional validator object.
  */
 is.optional = () => (new is.__validationUnit().optional());
+
+is.optional = {
+    String  = () => (new is.__validationUnit().optional().String()),
+    Boolean = () => (new is.__validationUnit().optional().Boolean()),
+    Number  = () => (new is.__validationUnit().optional().Number()),
+    Object  = () => (new is.__validationUnit().optional().Object()),
+    ArrayOf = () => (new is.__validationUnit().optional().ArrayOf()),
+    OneOf   = () => (new is.__validationUnit().optional().OneOf())
+}
 
 /**
  * Create a new functional validator.

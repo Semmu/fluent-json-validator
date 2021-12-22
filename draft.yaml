@@ -1,0 +1,16 @@
+globalScope:
+  - bool: isValidating
+  - push/pop stack
+
+  ^ exception stacktracehez
+
+draft:
+
+  validationUnit
+
+  is.optional.String
+  is.Boolean = requiredIsBooleanValidator
+
+  ^ nincsenek fgvhivasok!
+
+  csak az isObject, isArray, isOneOf fgv
